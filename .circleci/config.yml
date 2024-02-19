@@ -24,7 +24,9 @@ jobs:
       - node/install-packages:
           pkg-manager: npm
       - run:
-          command: npm run build
+          command: |
+            npm install
+            npm run build
       - run:
           name: Create the ~/artifacts directory if it doesn't exist
           command: mkdir -p ~/artifacts
@@ -42,10 +44,12 @@ jobs:
     steps:
       # Replace this with steps to deploy to users
       - run:
-          name: deploy on firebase
-          command: |
-            echo $SA_KEY > credentials.json
-            GOOGLE_APPLICATION_CREDENTIALS=credentials.json firebase deploy
+        name: Deploy on Firebase
+        command: |
+          alias firebase="`npm config get prefix`/bin/firebase"
+          echo $SA_KEY > credentials.json
+          GOOGLE_APPLICATION_CREDENTIALS=credentials.json
+          firebase deploy
 workflows:
   build-and-test:
     jobs:
