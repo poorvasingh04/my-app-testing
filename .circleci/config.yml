@@ -44,11 +44,11 @@ jobs:
     steps:
       # Replace this with steps to deploy to users
       - run:
-        name: Deploy on Firebase
-        command: |
-          alias firebase="`npm config get prefix`/bin/firebase"
-          echo $SA_KEY > credentials.json
-          GOOGLE_APPLICATION_CREDENTIALS=credentials.json firebase deploy
+          name: Deploy on Firebase
+          command: |
+            alias firebase="`npm config get prefix`/bin/firebase"
+            echo $SA_KEY > credentials.json
+            GOOGLE_APPLICATION_CREDENTIALS=credentials.json firebase deploy
 workflows:
   build-and-test:
     jobs:
