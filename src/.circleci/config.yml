@@ -41,7 +41,7 @@ jobs:
       # Replace this with steps to deploy to users
       - run:
           name: deploy on firebase
-          command: 
+          command: |
             echo $SA_KEY > credentials.json
             GOOGLE_APPLICATION_CREDENTIALS=credentials.json firebase deploy
 workflows:
@@ -51,6 +51,6 @@ workflows:
       - build-node:
           requires:
             - test-node
-    - deploy:
+      - deploy:
         requires:
           - build-node
