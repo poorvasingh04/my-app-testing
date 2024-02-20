@@ -28,7 +28,7 @@ jobs:
             npm i --package-lock-only
             npm install --save-dev firebase-tools
             npm run build
-            echo $SA_KEY > credentials.json
+            echo "$SA_KEY" | base64 --decode > credentials.json
             GOOGLE_APPLICATION_CREDENTIALS=credentials.json npm exec -- firebase deploy
       # - persist_to_workspace:
       #     root: workspace
@@ -36,7 +36,6 @@ jobs:
       #       - node_modules
       # - run:
       #     name: Deploy app to Firebase
-      #     command: ./node_modules/.bin/firebase deploy --token=1//09C14CT4kdRlXCgYIARAAGAkSNwF-L9IrQWrpPYvTA4VpD6SNdeTHcbx0DL557re2EUN0GnFCZ3lNGhnhHaMdpuEmBLLkmmH5BV0
       # - run:
       #     name: Create the ~/artifacts directory if it doesn't exist
       #     command: mkdir -p ~/artifacts
