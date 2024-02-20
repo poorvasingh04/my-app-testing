@@ -13,7 +13,7 @@ jobs:
           command: |
             npm install
             npm test --passWithNoTests
-  build-and-deploy:
+  build:
     executor: node/default
     steps:
       - checkout
@@ -26,23 +26,26 @@ jobs:
             npm install --save-dev firebase-tools
             npm run build
       - persist_to_workspace:
-          root: workspace
+          root: project
           paths:
             - firebase
   deploy:
     executor: node/default
     steps:
       - attach_workspace:
-          at: /tmp/workspace
+          at: /project
       - run:
           name: Deploy to firebase
           command: |
             echo "$SA_KEY" | base64 --decode > credentials.json
-            GOOGLE_APPLICATION_CREDENTIALS=credentials.json npm exec -- /tmp/workspace/firebase deploy
+            GOOGLE_APPLICATION_CREDENTIALS=credentials.json npm exec -- /project/firebase deploy
 workflows:
   build-and-test:
     jobs:
       - test-node
-      - build-and-deploy:
+      - build:
           requires:
             - test-node
+      # - deploy:
+      #     requires:
+      #       - build
