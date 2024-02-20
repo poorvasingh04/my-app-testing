@@ -29,15 +29,15 @@ jobs:
           root: .
           paths:
             - .
-      # - run:
-      #     name: Create the ~/artifacts directory if it doesn't exist
-      #     command: mkdir -p ~/artifacts
-      # - run:
-      #     name: Copy artifacts
-      #     command: cp -R build dist public .output .next .docusaurus ~/artifacts 2>/dev/null || true
-      # - store_artifacts:
-      #     path: ~/artifacts
-      #     destination: node-build
+      - run:
+          name: Create the ~/artifacts directory if it doesn't exist
+          command: mkdir -p ~/artifacts
+      - run:
+          name: Copy artifacts
+          command: cp -R build dist public .output .next .docusaurus ~/artifacts 2>/dev/null || true
+      - store_artifacts:
+          path: ~/artifacts
+          destination: node-build
   deploy:
     executor: node/default
     steps:
