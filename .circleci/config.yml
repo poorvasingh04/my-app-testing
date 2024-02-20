@@ -25,20 +25,29 @@ jobs:
             npm i --package-lock-only
             npm install --save-dev firebase-tools
             npm run build
+      - run:
+          name: Create the ~/artifacts directory if it doesn't exist
+          command: mkdir -p ~/artifacts
+      - run:
+          name: Copy artifacts
+          command: cp -R build dist public .output .next .docusaurus ~/artifacts 2>/dev/null || true
+      - store_artifacts:
+          path: ~/artifacts
+          destination: node-build
       - persist_to_workspace:
-          root: project
+          root: .
           paths:
             - firebase
   deploy:
     executor: node/default
     steps:
       - attach_workspace:
-          at: /project
+          at: .
       - run:
           name: Deploy to firebase
           command: |
             echo "$SA_KEY" | base64 --decode > credentials.json
-            GOOGLE_APPLICATION_CREDENTIALS=credentials.json npm exec -- /project/firebase deploy
+            GOOGLE_APPLICATION_CREDENTIALS=credentials.json npm exec -- ./firebase deploy
 workflows:
   build-and-test:
     jobs:
