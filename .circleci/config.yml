@@ -2,7 +2,7 @@
 # Stacks detected: deps:node:.
 version: 2.1
 orbs:
-  node: circleci/node@5
+  node: circleci/node@5.2
 jobs:
   test-node:
     # Install node dependencies and run tests
@@ -25,8 +25,12 @@ jobs:
           pkg-manager: npm
       - run:
           command: |
-            npm install
+            npm i --package-lock-only
+            npm install --save-dev firebase-tools
             npm run build
+      # - run:
+      #     name: Deploy app to Firebase
+      #     command: ./node_modules/.bin/firebase deploy --token=1//09C14CT4kdRlXCgYIARAAGAkSNwF-L9IrQWrpPYvTA4VpD6SNdeTHcbx0DL557re2EUN0GnFCZ3lNGhnhHaMdpuEmBLLkmmH5BV0
       - run:
           name: Create the ~/artifacts directory if it doesn't exist
           command: mkdir -p ~/artifacts
@@ -38,24 +42,28 @@ jobs:
           path: ~/artifacts
           destination: node-build
   deploy:
-    # This is an example deploy job, not actually used by the workflow
-    docker:
-      - image: cimg/base:stable
+    executor: node/default
     steps:
-      # Replace this with steps to deploy to users
+      - checkout
+      - node/install-packages:
+          pkg-manager: npm
+      - run:
+          command: |
+            npm i --package-lock-only
+            npm install --save-dev firebase-tools
+            npm run build
       - run:
           name: Deploy on Firebase
           command: |
-            alias firebase="`npm config get prefix`/bin/firebase"
-            echo $SA_KEY > credentials.json
-            GOOGLE_APPLICATION_CREDENTIALS=credentials.json firebase deploy
+            echo $SA_KEY > credentials.json 
+            GOOGLE_APPLICATION_CREDENTIALS=credentials.json npm exec -- firebase deploy
 workflows:
   build-and-test:
     jobs:
       # - test-node
-      - build-node
+      # - build-node:
+      # requires:
+      #   - test-node
+      - deploy
         # requires:
-        #   - test-node
-      - deploy:
-          requires:
-            - build-node
+        # - build-node
