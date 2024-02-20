@@ -19,7 +19,9 @@ jobs:
           pkg-manager: npm
       - run:
           name: Build the app
-          command: npm run build
+          command: |
+            npm install
+            npm run build
       - run:
           name: Deploy to firebase
           command: |
