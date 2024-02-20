@@ -25,7 +25,7 @@ jobs:
       - run:
           name: Deploy to firebase
           command: |
-            echo "$SA_KEY" | base64 --decode > credentions.json
+            echo "$SA_KEY" | base64 --decode > credentials.json
             GOOGLE_APPLICATION_CREDENTIALS=credentials.json npm exec -- firebase deploy
 workflows:
   build-and-test:
