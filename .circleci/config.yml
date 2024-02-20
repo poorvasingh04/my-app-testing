@@ -20,12 +20,25 @@ jobs:
       - node/install-packages:
           pkg-manager: npm
       - run:
+          name: Build
           command: |
             npm i --package-lock-only
             npm install --save-dev firebase-tools
             npm run build
+      - persist_to_workspace:
+          root: workspace
+          paths:
+            - firebase
+  deploy:
+    executor: node/default
+    steps:
+      - attach_workspace:
+          at: /tmp/workspace
+      - run:
+          name: Deploy to firebase
+          command: |
             echo "$SA_KEY" | base64 --decode > credentials.json
-            GOOGLE_APPLICATION_CREDENTIALS=credentials.json npm exec -- firebase deploy
+            GOOGLE_APPLICATION_CREDENTIALS=credentials.json npm exec -- /tmp/workspace/firebase deploy
 workflows:
   build-and-test:
     jobs:
