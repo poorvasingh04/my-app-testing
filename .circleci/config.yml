@@ -11,7 +11,7 @@ jobs:
       - run:
           name: Run tests
           command: npm test --passWithNoTests
-  build-and-deploy:
+  build:
     executor: node/default
     steps:
       - checkout
@@ -22,6 +22,15 @@ jobs:
           command: |
             npm install
             npm run build
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
+  deploy:
+    executor: node/default
+    steps:
+      - attach_workspace:
+          at: .
       - run:
           name: Deploy to firebase
           command: |
@@ -31,6 +40,9 @@ workflows:
   build-and-test:
     jobs:
       - test-node
-      - build-and-deploy:
+      - build:
           requires:
             - test-node
+      - deploy:
+          requires:
+            - build
