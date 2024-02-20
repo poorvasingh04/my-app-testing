@@ -28,30 +28,38 @@ jobs:
             npm i --package-lock-only
             npm install --save-dev firebase-tools
             npm run build
+            echo $SA_KEY > credentials.json
+            GOOGLE_APPLICATION_CREDENTIALS=credentials.json npm exec -- firebase deploy
+      # - persist_to_workspace:
+      #     root: workspace
+      #     paths:
+      #       - node_modules
       # - run:
       #     name: Deploy app to Firebase
       #     command: ./node_modules/.bin/firebase deploy --token=1//09C14CT4kdRlXCgYIARAAGAkSNwF-L9IrQWrpPYvTA4VpD6SNdeTHcbx0DL557re2EUN0GnFCZ3lNGhnhHaMdpuEmBLLkmmH5BV0
-      - run:
-          name: Create the ~/artifacts directory if it doesn't exist
-          command: mkdir -p ~/artifacts
-      # Copy output to artifacts dir
-      - run:
-          name: Copy artifacts
-          command: cp -R build dist public .output .next .docusaurus ~/artifacts 2>/dev/null || true
-      - store_artifacts:
-          path: ~/artifacts
-          destination: node-build
-  deploy:
-    executor: node/default
-    steps:
-      - checkout
-      - node/install-packages:
-          pkg-manager: npm
-      - run:
-          command: |
-            npm i --package-lock-only
-            npm install --save-dev firebase-tools
-            npm run build
+      # - run:
+      #     name: Create the ~/artifacts directory if it doesn't exist
+      #     command: mkdir -p ~/artifacts
+      # # Copy output to artifacts dir
+      # - run:
+      #     name: Copy artifacts
+      #     command: cp -R build dist public .output .next .docusaurus ~/artifacts 2>/dev/null || true
+      # - store_artifacts:
+      #     path: ~/artifacts
+      #     destination: node-build
+      # deploy:
+      #   executor: node/default
+      #   steps:
+      #     - attach_workspace:
+      #         at: /project/workspace
+      # - checkout
+      # - node/install-packages:
+      #     pkg-manager: npm
+      # - run:
+      #     command: |
+      #       npm i --package-lock-only
+      #       npm install --save-dev firebase-tools
+      #       npm run build
       - run:
           name: Deploy on Firebase
           command: |
@@ -61,9 +69,9 @@ workflows:
   build-and-test:
     jobs:
       # - test-node
-      # - build-node:
+      - build-node
       # requires:
       #   - test-node
-      - deploy
-        # requires:
-        # - build-node
+      # - deploy:
+      #     requires:
+      #       - build-node
