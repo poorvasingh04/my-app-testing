@@ -21,7 +21,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <p>My app</p>
+        <p>My app from webpack</p>
         <FirstPage />
       </header>
     </div>

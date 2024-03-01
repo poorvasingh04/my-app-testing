@@ -11,22 +11,38 @@ jobs:
       - run:
           name: Run tests
           command: npm test --passWithNoTests
-  build-and-deploy:
+  build:
     executor: node/default
     steps:
       - checkout
       - node/install-packages:
           pkg-manager: npm
       - run:
-          name: Build
-          command: npm run build
+          name: Build the app
+          command: |
+            npm install
+            npm run build
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
+  deploy:
+    executor: node/default
+    steps:
+      - attach_workspace:
+          at: .
       - run:
           name: Deploy to firebase
-          command: ./node_modules/.bin/firebase deploy --token=$FIREBASE_TOKEN
+          command: |
+            echo "$SA_KEY" | base64 --decode > credentials.json
+            GOOGLE_APPLICATION_CREDENTIALS=credentials.json npm exec -- firebase deploy
 workflows:
   build-and-test:
     jobs:
       - test-node
-      - build-and-deploy:
+      - build:
           requires:
             - test-node
+      - deploy:
+          requires:
+            - build
