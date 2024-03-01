@@ -10,7 +10,12 @@ module.exports = {
     path: path.resolve(__dirname, 'dist'),
     filename: 'bundle.js',
   },
-  mode: 'development',
+  mode: 'production',
+  performance: {
+    hints: false,
+    maxEntrypointSize: 512000,
+    maxAssetSize: 512000
+  },
   module: {
     rules: [
       {
@@ -38,6 +43,9 @@ module.exports = {
     },
     compress: true,
     port: 9001,
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+    }
   },
   plugins: [
     new InterpolateHtmlPlugin({
