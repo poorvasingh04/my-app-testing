@@ -21,7 +21,8 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <p>My app from webpack</p>
+        <p>My app from webpack is now delivered successfully with customization</p>
+        <p>This is customized webpack configuration</p>
         <FirstPage />
       </header>
     </div>
