@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`test 1 1`] = `
+<div
+  className="App"
+>
+  <header
+    className="App-header"
+  >
+    <p>
+      My app from webpack is now delivered successfully with customization
+    </p>
+    <p>
+      This is customized webpack configuration using ts
+    </p>
+    <div
+      className="content"
+    >
+      <iframe
+        className="iframe"
+        src="dev/policy.html"
+        title="My App Policy"
+      />
+    </div>
+  </header>
+</div>
+`;
