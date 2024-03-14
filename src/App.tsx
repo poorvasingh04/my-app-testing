@@ -2,7 +2,9 @@ import React, { ReactElement } from "react";
 import { initializeApp } from "firebase/app";
 import { useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import CustomComponent from "./components/bootstrap/Components";
+import BootstrapComponent from "./components/bootstrap/Components";
+import TailwindComponent from "./components/tailwind/Components";
+
 import Home from "./components/Home";
 import "./App.css";
 
@@ -26,7 +28,8 @@ function App(): ReactElement<React.FC> {
       <Router>
         <Routes>
           <Route path="/" Component={Home} />
-          <Route path="/component" Component={CustomComponent} />
+          <Route path="/component" Component={BootstrapComponent} />
+          <Route path="/tailwind" Component={TailwindComponent} />
         </Routes>
       </Router>
     </div>
