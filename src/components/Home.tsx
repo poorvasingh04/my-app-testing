@@ -7,9 +7,6 @@ function Home() {
       <Link to={"/component"}>
         <p>Bootstrap</p>
       </Link>
-      <Link to={"/tailwind"}>
-        <p>Tailwind</p>
-      </Link>
     </div>
   );
 }
