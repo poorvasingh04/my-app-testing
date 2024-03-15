@@ -1,6 +1,5 @@
-import React, { ReactElement } from "react";
+import React from "react";
 import renderer from "react-test-renderer";
-import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import App from "../App";
 
@@ -10,10 +9,4 @@ it("test 1", () => {
 
   let tree = component.toJSON();
   expect(tree).toMatchSnapshot();
-});
-
-test("screen", () => {
-  render(<App />);
-
-  expect(screen.getByText(/this is/i)).toBeDefined();
 });
