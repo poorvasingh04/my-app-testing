@@ -28,7 +28,8 @@ function App(): ReactElement<React.FC> {
       <Router>
         <Routes>
           <Route path="/" Component={Home} />
-          <Route path="/component" Component={BootstrapComponent} />
+          <Route path="/bootstrap" Component={BootstrapComponent} />
+          <Route path="/tailwind" Component={TailwindComponent} />
         </Routes>
       </Router>
     </div>
