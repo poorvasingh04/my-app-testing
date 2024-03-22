@@ -6,7 +6,7 @@ exports[`test 1 1`] = `
 >
   <div>
     <a
-      href="/component"
+      href="/bootstrap"
       onClick={[Function]}
     >
       <p>
